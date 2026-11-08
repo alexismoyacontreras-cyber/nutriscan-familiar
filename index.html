@@ -85,7 +85,37 @@ $('restoreFile').onchange=async e=>{
   notice.textContent='Restauración revertida; los datos anteriores se conservaron: '+error.message;
  }
 };
-function stopCamera(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('cam').style.display='none';$('capture').disabled=true} $('openCam').onclick=async()=>{try{visionRun++;$('scanResult').innerHTML='';stopCamera();stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});$('cam').srcObject=stream;$('cam').style.display='block';$('capture').disabled=false;$('notice').textContent='Cámara activa. Enfoca el alimento y presiona Capturar y analizar.'}catch(e){$('notice').textContent='No se pudo abrir la cámara: '+e.message+'. Comprueba permisos HTTPS y que exista una cámara disponible.'}};$('capture').onclick=async()=>{visionRun++;$('scanResult').innerHTML='';let v=$('cam');if(!v.videoWidth)return;$('shot').width=v.videoWidth;$('shot').height=v.videoHeight;$('shot').getContext('2d').drawImage(v,0,0);stopCamera();let img=new Image();img.onload=()=>analyze(img);img.src=$('shot').toDataURL('image/jpeg',.85);$('preview').src=img.src;$('preview').style.display='block'};$('photo').onchange=e=>{const f=e.target.files?.[0];e.target.value='';if(!f)return;const selectedRun=++visionRun;$('scanResult').innerHTML='';stopCamera();if(!f.type.startsWith('image/')||f.size>15*1024*1024){$('notice').textContent='Selecciona una imagen de hasta 15 MB.';return}const u=URL.createObjectURL(f),img=new Image();img.onload=()=>{URL.revokeObjectURL(u);if(selectedRun!==visionRun)return;$('preview').src=img.src;$('preview').style.display='block';analyze(img)};img.onerror=()=>{URL.revokeObjectURL(u);if(selectedRun===visionRun)$('notice').textContent='No se pudo leer la fotografía.'};img.src=u};const visionFoods=[
+function stopCamera(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}$('cam').style.display='none';$('capture').disabled=true} $('openCam').onclick=async()=>{try{visionRun++;$('scanResult').innerHTML='';stopCamera();stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});$('cam').srcObject=stream;$('cam').style.display='block';$('capture').disabled=false;$('notice').textContent='Cámara activa. Enfoca el alimento y presiona Capturar y analizar.'}catch(e){$('notice').textContent='No se pudo abrir la cámara: '+e.message+'. Comprueba permisos HTTPS y que exista una cámara disponible.'}};function prepareScannerImage(source){
+ const w=source.naturalWidth||source.videoWidth||source.width,h=source.naturalHeight||source.videoHeight||source.height;
+ if(!w||!h||w<32||h<32)throw Error('La imagen es demasiado pequeña o no tiene dimensiones válidas.');
+ const scale=Math.min(1,1280/Math.max(w,h)),c=document.createElement('canvas');
+ c.width=Math.max(1,Math.round(w*scale));c.height=Math.max(1,Math.round(h*scale));
+ c.getContext('2d').drawImage(source,0,0,c.width,c.height);
+ const img=new Image();img.src=c.toDataURL('image/jpeg',.88);return img;
+}
+function useScannerImage(source,selectedRun){
+ if(selectedRun!==visionRun)return;
+ try{
+  const prepared=prepareScannerImage(source);
+  prepared.onload=()=>{if(selectedRun!==visionRun)return;$('preview').src=prepared.src;$('preview').style.display='block';analyze(prepared)};
+  prepared.onerror=()=>{if(selectedRun===visionRun)$('notice').textContent='No se pudo preparar la imagen para el escáner.'};
+ }catch(error){$('notice').textContent='No se pudo procesar la fotografía: '+error.message}
+}
+$('capture').onclick=()=>{
+ const selectedRun=++visionRun;$('scanResult').innerHTML='';const video=$('cam');
+ if(!video.videoWidth||!video.videoHeight){$('notice').textContent='Espera a que la cámara muestre la imagen.';return}
+ const frame=document.createElement('canvas');const scale=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight));frame.width=Math.round(video.videoWidth*scale);frame.height=Math.round(video.videoHeight*scale);frame.getContext('2d').drawImage(video,0,0,frame.width,frame.height);stopCamera();useScannerImage(frame,selectedRun);
+};
+$('photo').onchange=e=>{
+ const f=e.target.files?.[0];e.target.value='';if(!f)return;
+ const selectedRun=++visionRun;$('scanResult').innerHTML='';stopCamera();
+ if(!f.type.startsWith('image/')||f.size>15*1024*1024){$('notice').textContent='Selecciona una imagen de hasta 15 MB.';return}
+ const u=URL.createObjectURL(f),img=new Image();
+ img.onload=()=>{URL.revokeObjectURL(u);useScannerImage(img,selectedRun)};
+ img.onerror=()=>{URL.revokeObjectURL(u);if(selectedRun===visionRun)$('notice').textContent='No se pudo leer la fotografía.'};
+ img.src=u;
+};
+const visionFoods=[
 ['Tomate','a fresh red tomato',18],['Pepino','a fresh green cucumber',15],['Palta','a ripe avocado fruit',160],['Choclo','a corn cob with yellow kernels',96],['Zanahoria','a carrot',41],['Papa','a raw potato',77],['Cebolla','an onion',40],['Pimentón','a bell pepper',26],['Lechuga','lettuce leaves',15],['Brócoli','broccoli',34],['Zapallo','a pumpkin squash',26],['Manzana','an apple',52],['Plátano','a banana',89],['Mandarina','a mandarin tangerine citrus fruit',53],['Naranja','an orange citrus fruit',47],['Limón','a lemon',29],['Pera','a pear',57],['Frutillas','strawberries',32],['Uvas','grapes',69],['Piña','a pineapple',50],['Sandía','a watermelon',30],['Melón','a melon',34],['Kiwi','a kiwi fruit',61],['Huevo','a boiled chicken egg',155],['Pollo','cooked chicken breast',165],['Pescado','cooked white fish',105],['Carne','cooked beef steak',250],['Arroz','cooked white rice',130],['Fideos','cooked pasta',158],['Pan','bread',265],['Queso','cheese',350],['Yogur','plain yogurt',63],['Avena','oatmeal porridge',71],['Porotos','cooked beans',127],['Lentejas','cooked lentils',116],['Ensalada','a mixed vegetable salad',35],['Pizza','a slice of pizza',266],['Hamburguesa','a hamburger sandwich',250],['Papas fritas','french fries',312],['Sopa','vegetable soup',45],['Cazuela','Chilean cazuela soup with meat potatoes and vegetables',95],['Charquicán','Chilean charquican mashed vegetable stew',110],['Pastel de choclo','Chilean pastel de choclo corn casserole',180],['Porotos con riendas','Chilean bean stew with noodles',135],['Arroz con pollo','cooked chicken with rice',165],['Completo','Chilean hot dog with avocado tomato and mayonnaise',250]
 ];
 let visionModelPromise=null,visionRun=0;
