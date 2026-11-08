@@ -17,7 +17,7 @@ function inspect(pixels,width,height){
  const detail=edges/count,dark=mean<32||black/n>.85,overexposed=mean>235||white/n>.85;
  // El detalle no es una medida calibrada de desenfoque; puede ser bajo en alimentos lisos.
  const lowDetail=detail<2.5;
- return {usable:!dark&&!overexposed&&!lowDetail,reason:dark?'DARK':overexposed?'OVEREXPOSED':lowDetail?'LOW_DETAIL':'OK',mean:Math.round(mean),detail:Math.round(detail*100)/100};
+ return {usable:!dark&&!overexposed,reason:dark?'DARK':overexposed?'OVEREXPOSED':lowDetail?'LOW_DETAIL':'OK',lowDetail,mean:Math.round(mean),detail:Math.round(detail*100)/100};
 }
 return Object.freeze({inspect});
 });
