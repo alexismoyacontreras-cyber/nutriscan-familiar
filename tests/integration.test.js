@@ -69,4 +69,7 @@ assert.match(benchmark,/duplicatesSkipped/);
 assert.match(benchmark,/priorityMinimumPerFood:10/);
 assert.match(benchmark,/priorityMinimumReached/);
 assert.match(benchmark,/Duplicadas omitidas:/);
+assert.match(benchmark,/const id='sha256:'\+fingerprint/);
+assert.match(benchmark,/NutriBenchmark\.compare\(current,baseline\)/);
+assert.match(benchmark,/previous\.samples/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
