@@ -1,0 +1,8 @@
+NUTRISCAN AUTO - PRUEBA EN IPHONE
+1. En el PC, abre https://app.netlify.com/drop
+2. Arrastra la carpeta NutriScan_Para_Publicar (no el ZIP) al área de publicación.
+3. Copia la dirección HTTPS que te entregue Netlify.
+4. Abre esa dirección en Safari en el iPhone.
+5. Toca 'Tomar foto o elegir imagen' y fotografía un alimento.
+6. Safari > Compartir > Agregar a pantalla de inicio.
+NOTA: Se requiere internet para descargar el modelo. El reconocimiento de MobileNet es limitado y las calorías son estimaciones por porción de referencia. El sitio de Netlify es público por URL; no subas fotos privadas al hosting.
