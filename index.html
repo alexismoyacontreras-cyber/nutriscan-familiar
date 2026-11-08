@@ -126,7 +126,20 @@ const visionFoods=NutriVisionCatalog.foods;
 let visionModelPromise=null,visionRun=0;
 function htmlSafe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function imageCrop(img,ratio){const w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;const f=NutriFrame.frame(w,h,ratio);const c=document.createElement('canvas');c.width=c.height=384;const ctx=c.getContext('2d');ctx.fillStyle='#eeeeee';ctx.fillRect(0,0,384,384);ctx.drawImage(img,f.sx,f.sy,f.sw,f.sh,f.dx,f.dy,f.dw,f.dh);return c.toDataURL('image/jpeg',.88)}
-async function getVisionModel(){if(!visionModelPromise)visionModelPromise=(async()=>{const {pipeline}=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1');return pipeline('zero-shot-image-classification','Xenova/clip-vit-base-patch32',{device:'wasm'})})();try{return await visionModelPromise}catch(e){visionModelPromise=null;throw e}}
+async function getVisionModel(){
+ if(!visionModelPromise)visionModelPromise=(async()=>{
+  const sources=['https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1','https://esm.sh/@huggingface/transformers@3.8.1'];
+  let lib,lastError;
+  for(const source of sources){
+   try{lib=await import(source);if(typeof lib.pipeline==='function')break;throw Error('Módulo sin función pipeline')}
+   catch(error){lastError=error;lib=null}
+  }
+  if(!lib)throw Error('No se pudo descargar el motor de IA desde los dos proveedores: '+String(lastError?.message||lastError));
+  try{return await lib.pipeline('zero-shot-image-classification','Xenova/clip-vit-base-patch32',{device:'wasm'})}
+  catch(error){throw Error('El motor se cargó, pero no se pudieron descargar o iniciar los pesos del modelo: '+String(error?.message||error))}
+ })();
+ try{return await visionModelPromise}catch(error){visionModelPromise=null;throw error}
+}
 async function analyze(img){const run=++visionRun;const notice=$('notice'),result=$('scanResult');try{const qualityCanvas=document.createElement('canvas');qualityCanvas.width=qualityCanvas.height=96;qualityCanvas.getContext('2d',{willReadFrequently:true}).drawImage(img,0,0,96,96);const quality=NutriPhotoQuality.inspect(qualityCanvas.getContext('2d').getImageData(0,0,96,96).data,96,96);if(!quality.usable){const reasons={DARK:'La fotografía está demasiado oscura',OVEREXPOSED:'La fotografía tiene demasiada luz'};result.innerHTML='';notice.textContent=(reasons[quality.reason]||'La imagen no es adecuada')+'. Toma otra foto con luz uniforme, enfoca el alimento y evita el movimiento. No se ejecutó el reconocimiento.';return}notice.textContent=quality.lowDetail?'La foto tiene poco detalle; algunos alimentos lisos son normales. Analizando sin afirmar precisión…':'Preparando análisis experimental CLIP. La primera descarga puede tardar varios minutos y consumir datos.';result.innerHTML='';const model=await getVisionModel();if(run!==visionRun)return;const produceNames=new Set(['Tomate','Pepino','Palta','Choclo','Zanahoria','Papa','Cebolla','Pimentón','Lechuga','Brócoli','Zapallo','Manzana','Plátano','Mandarina','Naranja','Limón','Pera','Frutillas','Uvas','Piña','Sandía','Melón','Kiwi']);const mode=$('scanCategory').value;const activeFoods=mode==='produce'?visionFoods.filter(f=>produceNames.has(f[0])):visionFoods;const labels=activeFoods.map(f=>'a photo of '+f[1]);let all=[];for(const ratio of [1,.72]){notice.textContent='Analizando alimento y encuadre '+(ratio===1?'completo':'central')+'…';const response=await model(imageCrop(img,ratio),labels,{hypothesis_template:'{}',top_k:labels.length});if(run!==visionRun)return;const scores=NutriScanScores.normalize(response,labels);all.push(scores)}const gate=NutriVisionGate.decide(all,activeFoods.map(f=>f[0]));
 // En modo frutas, una puntuación alta entre pocas clases puede ser falsa
 // si la fotografía muestra realmente pan, carne u otro plato. Contrastamos
