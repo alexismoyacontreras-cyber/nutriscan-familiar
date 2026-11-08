@@ -29,6 +29,7 @@
   const round=x=>Math.round(x*10000)/10000;
   return Object.freeze({
    samples:n,minimumReached:n>=minSamples,
+   datasetSignature:JSON.stringify(samples.map(x=>[x.id,x.actual]).sort((a,b)=>a[0].localeCompare(b[0]))),
    correct,wrong,abstained,
    coverage:round(attempted/n),
    accuracyWhenPredicted:attempted?round(correct/attempted):null,
@@ -38,7 +39,7 @@
   });
  }
  function compare(candidate,baseline){
-  if(candidate.samples!==baseline.samples)throw new Error('Comparar resultados requiere el mismo número de muestras');
+  if(!candidate||!baseline||typeof candidate.datasetSignature!=='string'||typeof baseline.datasetSignature!=='string'||candidate.datasetSignature!==baseline.datasetSignature)throw new Error('Comparar resultados requiere exactamente las mismas imágenes y etiquetas');
   if(!candidate.minimumReached||!baseline.minimumReached)return Object.freeze({decision:'INSUFFICIENT_DATA',reason:'Muestras insuficientes'});
   if(candidate.wrong>baseline.wrong)return Object.freeze({decision:'DO_NOT_RELEASE',reason:'Más identificaciones erróneas'});
   if(candidate.overallCorrectRate<=baseline.overallCorrectRate)return Object.freeze({decision:'DO_NOT_RELEASE',reason:'No aumenta el reconocimiento correcto total'});
