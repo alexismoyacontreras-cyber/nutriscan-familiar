@@ -42,4 +42,6 @@ assert.match(html,/Restauración revertida/);
 assert.match(html,/NutriVisionGate\.decide\(/);
 assert.match(html,/gate\.suggest/);
 assert.match(html,/No hay identificación consistente/);
+assert.match(html,/NutriPhotoQuality\.inspect\(/);
+assert.match(html,/No se ejecutó el reconocimiento/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
