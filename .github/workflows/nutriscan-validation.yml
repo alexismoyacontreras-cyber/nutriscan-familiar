@@ -21,6 +21,7 @@ jobs:
           node tests/backup.test.js
           node tests/vision-gate.test.js
           node tests/photo-quality.test.js
+          node tests/frame.test.js
           node tests/integration.test.js
       - name: Check JavaScript syntax
         run: |
@@ -31,6 +32,8 @@ jobs:
           node --check src/backup.js
           node --check src/vision-gate.js
           node --check src/photo-quality.js
+          node --check src/frame.js
+          node --check tests/frame.test.js
           node --check tests/photo-quality.test.js
           node --check tests/vision-gate.test.js
           node --check tests/backup.test.js
