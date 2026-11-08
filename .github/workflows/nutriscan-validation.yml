@@ -15,6 +15,11 @@ jobs:
       - name: Run nutrition safety tests
         run: |
           node tests/nutrition.test.js
+          node tests/catalog.test.js
           node tests/integration.test.js
       - name: Check JavaScript syntax
-        run: node --check src/nutrition.js
+        run: |
+          node --check src/nutrition.js
+          node --check src/catalog.js
+          node --check tests/catalog.test.js
+          node --check tests/integration.test.js
