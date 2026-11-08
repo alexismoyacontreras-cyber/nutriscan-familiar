@@ -18,6 +18,7 @@ jobs:
           node tests/catalog.test.js
           node tests/benchmark.test.js
           node tests/acceptance.test.js
+          node tests/html-script-syntax.test.js
           node tests/barcode.test.js
           node tests/backup.test.js
           node tests/vision-gate.test.js
