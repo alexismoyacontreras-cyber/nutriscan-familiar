@@ -18,6 +18,7 @@ jobs:
           node tests/catalog.test.js
           node tests/benchmark.test.js
           node tests/barcode.test.js
+          node tests/backup.test.js
           node tests/integration.test.js
       - name: Check JavaScript syntax
         run: |
@@ -25,6 +26,8 @@ jobs:
           node --check src/catalog.js
           node --check src/benchmark.js
           node --check src/barcode.js
+          node --check src/backup.js
+          node --check tests/backup.test.js
           node --check tests/barcode.test.js
           node --check tests/benchmark.test.js
           node --check tests/catalog.test.js
