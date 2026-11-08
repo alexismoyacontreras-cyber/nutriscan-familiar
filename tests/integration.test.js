@@ -63,4 +63,7 @@ assert.match(benchmark,/NutriBenchmark\.evaluate\(samples/);
 assert.match(benchmark,/NutriScanScores\.normalize\(output,labels\)/);
 assert.match(benchmark,/technicalFailures:failures/);
 assert.match(benchmark,/if\(technicalError\)failures\.push/);
+assert.match(benchmark,/crypto\.subtle\.digest\('SHA-256'/);
+assert.match(benchmark,/seenPhotos\.has\(fingerprint\)/);
+assert.match(benchmark,/duplicatesSkipped/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
