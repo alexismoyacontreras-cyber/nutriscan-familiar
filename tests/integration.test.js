@@ -88,4 +88,7 @@ assert.match(html,/id="focusY"/);
 assert.match(html,/Math\.max\(0,Math\.min\(src\.width-sw/);
 assert.match(html,/btn\.disabled=!\(valid&&check\.checked\)/);
 assert.match(html,/if\(valid\)\{try\{estimated=NutriNutrition\.calculate/);
+assert.match(html,/Referencia orientativa para /);
+assert.match(html,/kcal por 100 g/);
+assert.match(html,/Sin identificación confiable no se atribuyen calorías/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
