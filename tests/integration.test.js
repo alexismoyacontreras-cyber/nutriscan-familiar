@@ -39,4 +39,7 @@ assert.match(html,/Se reemplazarán TODOS los registros locales/);
 assert.match(html,/const previousData=db,previousPerson=person,previousStored=localStorage\.getItem\(KEY\)/);
 assert.match(html,/db=previousData;person=previousPerson/);
 assert.match(html,/Restauración revertida/);
+assert.match(html,/NutriVisionGate\.decide\(/);
+assert.match(html,/gate\.suggest/);
+assert.match(html,/No hay identificación consistente/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
