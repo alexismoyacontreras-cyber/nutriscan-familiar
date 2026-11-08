@@ -28,4 +28,6 @@ const sameIdWrongGroundTruth=evaluate([{id:'1',actual:'Tomate',predicted:'Tomate
 assert.throws(()=>compare(sameIdWrongGroundTruth,result),/mismas imágenes/);
 const reversed=evaluate([...examples].reverse(),{minSamples:3});
 assert.equal(reversed.datasetSignature,result.datasetSignature);
+const unusual=evaluate([{id:'special',actual:'__proto__',predicted:null}],{minSamples:1});
+assert.equal(unusual.perClass['__proto__'].abstained,1);
 console.log('OK: evaluación de aciertos, errores y abstenciones');
