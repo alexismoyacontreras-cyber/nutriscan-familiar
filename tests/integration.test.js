@@ -101,6 +101,8 @@ assert.match(foodLab,/Food-101 reconoce categorías de platos preparados/);
 assert.match(foodLab,/No está diseñado para reconocer palta/);
 assert.match(foodLab,/URL\.revokeObjectURL/);
 assert.match(html,/id="scanCategory"/);
+assert.match(html,/https:\/\/esm\.sh\/@huggingface\/transformers@3\.8\.1/);
+assert.match(html,/no se pudieron descargar o iniciar los pesos del modelo/);
 assert.match(html,/outOfDomain=!broadRank\.slice\(0,3\)/);
 assert.match(html,/const reliable=gate\.suggest&&!outOfDomain/);
 assert.match(html,/mode==='produce'\?visionFoods\.filter/);
