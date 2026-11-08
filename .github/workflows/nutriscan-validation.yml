@@ -17,12 +17,15 @@ jobs:
           node tests/nutrition.test.js
           node tests/catalog.test.js
           node tests/benchmark.test.js
+          node tests/barcode.test.js
           node tests/integration.test.js
       - name: Check JavaScript syntax
         run: |
           node --check src/nutrition.js
           node --check src/catalog.js
           node --check src/benchmark.js
+          node --check src/barcode.js
+          node --check tests/barcode.test.js
           node --check tests/benchmark.test.js
           node --check tests/catalog.test.js
           node --check tests/integration.test.js
