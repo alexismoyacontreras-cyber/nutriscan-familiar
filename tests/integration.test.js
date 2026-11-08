@@ -61,4 +61,6 @@ assert.match(benchmark,/NutriVisionCatalog\.foods/);
 assert.match(benchmark,/NutriVisionGate\.decide\(scores,names\)/);
 assert.match(benchmark,/NutriBenchmark\.evaluate\(samples/);
 assert.match(benchmark,/NutriScanScores\.normalize\(output,labels\)/);
+assert.match(benchmark,/technicalFailures:failures/);
+assert.match(benchmark,/if\(technicalError\)failures\.push/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
