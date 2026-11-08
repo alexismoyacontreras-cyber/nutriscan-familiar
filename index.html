@@ -91,14 +91,16 @@ function stopCamera(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=
  const scale=Math.min(1,1280/Math.max(w,h)),c=document.createElement('canvas');
  c.width=Math.max(1,Math.round(w*scale));c.height=Math.max(1,Math.round(h*scale));
  c.getContext('2d').drawImage(source,0,0,c.width,c.height);
- const img=new Image();img.src=c.toDataURL('image/jpeg',.88);return img;
+ return c;
 }
 function useScannerImage(source,selectedRun){
  if(selectedRun!==visionRun)return;
  try{
   const prepared=prepareScannerImage(source);
-  prepared.onload=()=>{if(selectedRun!==visionRun)return;$('preview').src=prepared.src;$('preview').style.display='block';analyze(prepared)};
-  prepared.onerror=()=>{if(selectedRun===visionRun)$('notice').textContent='No se pudo preparar la imagen para el escáner.'};
+  if(selectedRun!==visionRun)return;
+  $('preview').src=prepared.toDataURL('image/jpeg',.88);
+  $('preview').style.display='block';
+  analyze(prepared);
  }catch(error){$('notice').textContent='No se pudo procesar la fotografía: '+error.message}
 }
 $('capture').onclick=()=>{
