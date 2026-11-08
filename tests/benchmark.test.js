@@ -22,4 +22,10 @@ const better=evaluate([{id:'1',actual:'Tomate',predicted:'Tomate'},{id:'2',actua
 assert.equal(compare(better,result).decision,'REVIEW_REQUIRED');
 const risky=evaluate([{id:'1',actual:'Tomate',predicted:'Palta'},{id:'2',actual:'Palta',predicted:'Palta'},{id:'3',actual:'Pan',predicted:'Tomate'}],{minSamples:3});
 assert.equal(compare(risky,result).decision,'DO_NOT_RELEASE');
+const sameSizeDifferentImages=evaluate([{id:'otra-1',actual:'Tomate',predicted:'Tomate'},{id:'otra-2',actual:'Palta',predicted:'Palta'},{id:'otra-3',actual:'Pan',predicted:null}],{minSamples:3});
+assert.throws(()=>compare(sameSizeDifferentImages,result),/mismas imágenes/);
+const sameIdWrongGroundTruth=evaluate([{id:'1',actual:'Tomate',predicted:'Tomate'},{id:'2',actual:'Choclo',predicted:'Choclo'},{id:'3',actual:'Pan',predicted:null}],{minSamples:3});
+assert.throws(()=>compare(sameIdWrongGroundTruth,result),/mismas imágenes/);
+const reversed=evaluate([...examples].reverse(),{minSamples:3});
+assert.equal(reversed.datasetSignature,result.datasetSignature);
 console.log('OK: evaluación de aciertos, errores y abstenciones');
