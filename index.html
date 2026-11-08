@@ -24,7 +24,7 @@ $('barcodeCamera').onclick=async()=>{
    try{
     const codes=await detector.detect(video);
     if(run!==barcodeCameraRun)return;
-    const found=codes.map(c=>String(c.rawValue||'')).find(c=>/^\\d{8,14}$/.test(c));
+    const found=codes.map(c=>String(c.rawValue||'')).find(c=>/^\d{8,14}$/.test(c));
     if(found){$('barcode').value=found;closeBarcodeCamera();notice.textContent='Código leído. Consultando producto…';$('barcodeLookup').click();return}
    }catch(e){if(run===barcodeCameraRun){closeBarcodeCamera();notice.textContent='No se pudo leer el código. Introdúcelo manualmente.'}return}
    if(run===barcodeCameraRun)requestAnimationFrame(scan);
