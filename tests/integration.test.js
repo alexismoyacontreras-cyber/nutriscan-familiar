@@ -26,5 +26,5 @@ assert.match(html,/id="barcodeCamera"/);
 assert.match(html,/id="barcodeCameraStop"/);
 assert.match(html,/new BarcodeDetector/);
 assert.match(html,/closeBarcodeCamera\(\)/);
-assert.ok(html.includes(String.raw`/^\\d{8,14}$/`));
+assert.ok(html.includes(String.raw`/^\d{8,14}$/`));
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
