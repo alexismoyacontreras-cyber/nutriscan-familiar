@@ -17,5 +17,5 @@ assert.ok(html.includes("select.value===''?'sin seleccionar'"));
 assert.match(html,/NutriNutrition\.calculate\(\{grams:g,kcalPer100g:f\[2\]\}\)/);
 assert.match(html,/Puedes abrir la pestaña Comidas/);
 assert.match(html,/Estimación ·/);
-assert.match(html,/escapeHtml\(e\.source\|\|'Fuente no registrada'\)/);
+assert.ok(html.includes('escapeHtml(e.source||"Fuente no registrada")'));
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
