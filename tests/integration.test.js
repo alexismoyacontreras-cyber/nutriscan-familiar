@@ -76,4 +76,8 @@ assert.match(html,/id="focusZoom"/);
 assert.match(html,/id="focusApply"/);
 assert.match(html,/scannerOriginal=prepared/);
 assert.match(html,/\[1,1\.4,2\]\.includes\(zoom\)/);
+assert.match(benchmark,/id="paired"/);
+assert.match(benchmark,/pairedResults\.push/);
+assert.match(benchmark,/predict\(cropCenter\(img,1\.4\),classify\)/);
+assert.match(benchmark,/pairedResults,duplicatesSkipped/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
