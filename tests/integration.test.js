@@ -86,4 +86,6 @@ assert.match(benchmark,/empeora:/);
 assert.match(html,/id="focusX"/);
 assert.match(html,/id="focusY"/);
 assert.match(html,/Math\.max\(0,Math\.min\(src\.width-sw/);
+assert.match(html,/btn\.disabled=!\(valid&&check\.checked\)/);
+assert.match(html,/if\(valid\)\{try\{estimated=NutriNutrition\.calculate/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
