@@ -83,4 +83,7 @@ assert.match(benchmark,/pairedResults,duplicatesSkipped/);
 assert.match(benchmark,/cropDecision:'TECHNICAL_ERROR'/);
 assert.match(benchmark,/Comparación de encuadres:/);
 assert.match(benchmark,/empeora:/);
+assert.match(html,/id="focusX"/);
+assert.match(html,/id="focusY"/);
+assert.match(html,/Math\.max\(0,Math\.min\(src\.width-sw/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
