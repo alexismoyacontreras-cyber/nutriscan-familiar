@@ -53,4 +53,6 @@ assert.match(html,/function prepareScannerImage\(source\)/);
 assert.match(html,/Math\.min\(1,1280\/Math\.max\(w,h\)\)/);
 assert.match(html,/useScannerImage\(frame,selectedRun\)/);
 assert.match(html,/analyze\(prepared\)/);
+assert.match(html,/NutriScanScores\.normalize\(response,labels\)/);
+assert.match(html,/top_k:labels\.length/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
