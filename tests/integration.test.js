@@ -11,4 +11,6 @@ assert.match(html,/KEY='nutriscan_family_v2'/);
 assert.doesNotMatch(html,/if\(reliable\)select\.value=String\(top\.i\)/);
 assert.match(html,/Sugerencia visual:/);
 assert.match(html,/Selecciona tú el alimento real/);
+assert.match(html,/sourceVersion:computed\.sourceVersion,confirmed:true,estimated:true/);
+assert.match(html,/Preparando análisis experimental CLIP/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
