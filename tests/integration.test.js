@@ -66,4 +66,7 @@ assert.match(benchmark,/if\(technicalError\)failures\.push/);
 assert.match(benchmark,/crypto\.subtle\.digest\('SHA-256'/);
 assert.match(benchmark,/seenPhotos\.has\(fingerprint\)/);
 assert.match(benchmark,/duplicatesSkipped/);
+assert.match(benchmark,/priorityMinimumPerFood:10/);
+assert.match(benchmark,/priorityMinimumReached/);
+assert.match(benchmark,/Duplicadas omitidas:/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
