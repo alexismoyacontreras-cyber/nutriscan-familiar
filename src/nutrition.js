@@ -11,13 +11,13 @@
   }
   function calculate({grams,kcalPer100g,proteinPer100g=0,carbsPer100g=0,fatPer100g=0}){
     number(grams,'grams');number(kcalPer100g,'kcalPer100g');
-    if(grams<=0||grams>5000) throw new RangeError('grams fuera de rango (0, 5000]');
+    if(grams<=0||grams>2000) throw new RangeError('grams fuera de rango (0, 2000]');
     const nutrients={kcalPer100g,proteinPer100g,carbsPer100g,fatPer100g};
     for(const [key,val] of Object.entries(nutrients)){
       number(val,key);
       if(val<0||val>1000) throw new RangeError(key+' fuera de rango');
     }
-    if(proteinPer100g>100||carbsPer100g>100||fatPer100g>100) throw new RangeError('macronutrientes fuera de rango');
+    if(proteinPer100g>100||carbsPer100g>100||fatPer100g>100||proteinPer100g+carbsPer100g+fatPer100g>100.01) throw new RangeError('macronutrientes incompatibles por 100 g');
     const factor=grams/100;
     const round=n=>Math.round((n+Number.EPSILON)*100)/100;
     return Object.freeze({
@@ -33,7 +33,7 @@
     if(typeof foodId!=='string'||!foodId.trim()||typeof foodName!=='string'||!foodName.trim()) throw new Error('Identificación de alimento incompleta');
     if(typeof source!=='string'||!source.trim()||typeof sourceVersion!=='string'||!sourceVersion.trim()) throw new Error('Fuente nutricional y versión obligatorias');
     if(!nutrients||typeof nutrients!=='object') throw new Error('Datos nutricionales ausentes');
-    const values=calculate({grams,...nutrients});
+    const values=calculate({...nutrients,grams});
     return Object.freeze({foodId,foodName,source,sourceVersion,confirmed:true,estimated:true,...values});
   }
   function canRecordRecognition(recognition){
