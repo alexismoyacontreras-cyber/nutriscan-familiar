@@ -46,4 +46,7 @@ assert.match(html,/NutriPhotoQuality\.inspect\(/);
 assert.match(html,/No se ejecutó el reconocimiento/);
 assert.match(html,/NutriFrame\.frame\(/);
 assert.match(html,/for\(const ratio of \[1,\.72\]\)/);
+assert.match(html,/selectedRun!==visionRun/);
+assert.match(html,/f\.size>15\*1024\*1024/);
+assert.match(html,/async function analyze\(img\)\{const run=\+\+visionRun;const notice=\$\('notice'\),result=\$\('scanResult'\);try\{/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
