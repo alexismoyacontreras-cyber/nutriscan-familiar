@@ -13,4 +13,7 @@ assert.match(html,/Sugerencia visual:/);
 assert.match(html,/Selecciona tú el alimento real/);
 assert.match(html,/sourceVersion:computed\.sourceVersion,confirmed:true,estimated:true/);
 assert.match(html,/Preparando análisis experimental CLIP/);
+assert.match(html,/select\.value===''\\?'sin seleccionar'/);
+assert.match(html,/NutriNutrition\.calculate\(\{grams:g,kcalPer100g:f\[2\]\}\)/);
+assert.match(html,/Puedes abrir la pestaña Comidas/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
