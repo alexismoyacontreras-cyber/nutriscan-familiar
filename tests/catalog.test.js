@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const {validate,lookup}=require('../src/catalog.js');
+const item={id:'sample',name:'Alimento de prueba',sourceKind:'USDA_FDC',sourceId:'EXAMPLE-NOT-REAL',sourceVersion:'test',sourceUrl:'https://example.org/not-a-source',basis:'100g',nutrients:{kcalPer100g:100,proteinPer100g:5,carbsPer100g:10,fatPer100g:2}};
+const valid=validate(item);
+assert.equal(lookup([valid],'sample'),valid);
+assert.equal(lookup([valid],'unknown'),null);
+assert.throws(()=>validate({...item,sourceId:''}),/sourceId/);
+assert.throws(()=>validate({...item,basis:'portion'}),/100 g/);
+assert.throws(()=>validate({...item,sourceUrl:'http://example.org'}),/HTTPS/);
+assert.throws(()=>validate({...item,sourceKind:'SIN_FUENTE'}),/fuente/);
+assert.throws(()=>validate({...item,nutrients:{...item.nutrients,proteinPer100g:90,carbsPer100g:90}}),/incompatibles/);
+assert.throws(()=>validate({...item,nutrients:{...item.nutrients,kcalPer100g:NaN}}),/inválido/);
+console.log('OK: esquema de fuentes y validación del catálogo');
