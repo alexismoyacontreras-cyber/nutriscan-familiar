@@ -10,7 +10,7 @@
   const minSamples=options.minSamples??30;
   if(!Number.isInteger(minSamples)||minSamples<1)throw new Error('minSamples inválido');
   let correct=0,abstained=0,wrong=0;
-  const perClass={};
+  const perClass=Object.create(null);
   const ids=new Set();
   for(const sample of samples){
    if(!sample||typeof sample.id!=='string'||!sample.id.trim()||ids.has(sample.id))throw new Error('ID de muestra inválido o duplicado');
