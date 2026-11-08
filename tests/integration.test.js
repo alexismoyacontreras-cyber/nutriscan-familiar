@@ -91,4 +91,7 @@ assert.match(html,/if\(valid\)\{try\{estimated=NutriNutrition\.calculate/);
 assert.match(html,/Referencia orientativa para /);
 assert.match(html,/kcal por 100 g/);
 assert.match(html,/Sin identificación confiable no se atribuyen calorías/);
+assert.match(benchmark,/candidates:gate\.topThree/);
+assert.match(benchmark,/candidates\.join\(' · '\)/);
+assert.match(benchmark,/samples\.push\(\{id,actual,predicted,decision,candidates\}\)/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
