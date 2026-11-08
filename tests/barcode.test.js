@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict');
+const {parseBarcode,normalizeProduct,lookup}=require('../src/barcode.js');
+assert.equal(parseBarcode(' 780-1234 567890 '),'7801234567890');
+for(const code of ['123','abc12345678','123456789012345',''])assert.throws(()=>parseBarcode(code),/código/);
+const payload={status:1,product:{product_name_es:'Producto de prueba',brands:'Marca',nutriments:{'energy-kcal_100g':120,proteins_100g:4,carbohydrates_100g:20,fat_100g:2}}};
+const normalized=normalizeProduct(payload,'7801234567890');
+assert.equal(normalized.nutrients.kcalPer100g,120);
+assert.equal(normalized.nutrients.proteinPer100g,4);
+assert.match(normalized.source,/colaborativos/);
+assert.throws(()=>normalizeProduct({status:0},'7801234567890'),/no encontrado/);
+assert.throws(()=>normalizeProduct({status:1,product:{product_name:'Sin calorías',nutriments:{}}},'7801234567890'),/calorías/);
+assert.throws(()=>normalizeProduct({status:1,product:{product_name:'Erróneo',nutriments:{'energy-kcal_100g':100,proteins_100g:90,carbohydrates_100g:90,fat_100g:1}}},'7801234567890'),/incompatibles/);
+(async()=>{
+ let called='';
+ const item=await lookup('7801234567890',async(url,options)=>{called=url;assert.equal(options.headers.Accept,'application/json');return {ok:true,json:async()=>payload}});
+ assert.equal(item.name,'Producto de prueba');
+ assert.match(called,/\/api\/v2\/product\/7801234567890\.json/);
+ await assert.rejects(()=>lookup('7801234567890',async()=>({ok:false,status:503})),/503/);
+ console.log('OK: búsqueda y validación de códigos de barras');
+})().catch(e=>{console.error(e);process.exitCode=1});

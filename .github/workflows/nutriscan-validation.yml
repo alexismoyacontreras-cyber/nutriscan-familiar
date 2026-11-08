@@ -1,0 +1,51 @@
+name: NutriScan validation
+on:
+  pull_request:
+  push:
+    branches:
+      - mejora/reconocimiento-seguro-v24
+jobs:
+  nutrition:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run nutrition safety tests
+        run: |
+          node tests/nutrition.test.js
+          node tests/catalog.test.js
+          node tests/benchmark.test.js
+          node tests/acceptance.test.js
+          node tests/html-script-syntax.test.js
+          node tests/barcode.test.js
+          node tests/backup.test.js
+          node tests/vision-gate.test.js
+          node tests/photo-quality.test.js
+          node tests/frame.test.js
+          node tests/scan-scores.test.js
+          node tests/vision-catalog.test.js
+          node tests/integration.test.js
+      - name: Check JavaScript syntax
+        run: |
+          node --check src/nutrition.js
+          node --check src/catalog.js
+          node --check src/benchmark.js
+          node --check src/acceptance.js
+          node --check src/barcode.js
+          node --check src/backup.js
+          node --check src/vision-gate.js
+          node --check src/photo-quality.js
+          node --check src/frame.js
+          node --check src/scan-scores.js
+          node --check src/vision-catalog.js
+          node --check tests/frame.test.js
+          node --check tests/photo-quality.test.js
+          node --check tests/vision-gate.test.js
+          node --check tests/backup.test.js
+          node --check tests/barcode.test.js
+          node --check tests/benchmark.test.js
+          node --check tests/acceptance.test.js
+          node --check tests/catalog.test.js
+          node --check tests/integration.test.js

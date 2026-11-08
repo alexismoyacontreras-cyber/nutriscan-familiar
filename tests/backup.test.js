@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const {validate,MAX_BYTES}=require('../src/backup.js');
+const base={yo:{entries:[{name:'Tomate',date:'2026-11-08',kcal:18}]},pareja:{entries:[]}};
+const restored=validate(JSON.stringify(base));
+assert.equal(restored.yo.entries[0].kcal,18);
+assert.equal(Object.getPrototypeOf(restored),null);
+assert.throws(()=>validate('{'),/JSON válido/);
+assert.throws(()=>validate(JSON.stringify({yo:{}})),/yo y pareja/);
+assert.throws(()=>validate(JSON.stringify({yo:{entries:[{name:'X',date:'2026-11-08',kcal:-5}]},pareja:{}})),/alimentario/);
+assert.throws(()=>validate(JSON.stringify({yo:{entries:'no'},pareja:{}})),/Lista inválida/);
+assert.throws(()=>validate(' '.repeat(MAX_BYTES+1)),/2 MB/);
+assert.equal(validate('{"yo":{"__proto__":{"polluted":true}},"pareja":{}}').yo.polluted,undefined);
+console.log('OK: restauración validada, sin modificar almacenamiento');
