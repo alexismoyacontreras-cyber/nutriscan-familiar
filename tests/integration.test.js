@@ -100,4 +100,8 @@ assert.match(foodLab,/dtype:'q8'/);
 assert.match(foodLab,/Food-101 reconoce categorías de platos preparados/);
 assert.match(foodLab,/No está diseñado para reconocer palta/);
 assert.match(foodLab,/URL\.revokeObjectURL/);
+assert.match(html,/id="scanCategory"/);
+assert.match(html,/mode==='produce'\?visionFoods\.filter/);
+assert.match(html,/NutriVisionGate\.decide\(all,activeFoods\.map/);
+assert.match(html,/\$\('scanCategory'\)\.onchange=/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
