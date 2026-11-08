@@ -101,6 +101,8 @@ assert.match(foodLab,/Food-101 reconoce categorías de platos preparados/);
 assert.match(foodLab,/No está diseñado para reconocer palta/);
 assert.match(foodLab,/URL\.revokeObjectURL/);
 assert.match(html,/id="scanCategory"/);
+assert.match(html,/outOfDomain=!broadRank\.slice\(0,3\)/);
+assert.match(html,/const reliable=gate\.suggest&&!outOfDomain/);
 assert.match(html,/mode==='produce'\?visionFoods\.filter/);
 assert.match(html,/NutriVisionGate\.decide\(all,activeFoods\.map/);
 assert.match(html,/\$\('scanCategory'\)\.onchange=/);
