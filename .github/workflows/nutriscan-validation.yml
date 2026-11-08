@@ -13,6 +13,8 @@ jobs:
         with:
           node-version: '22'
       - name: Run nutrition safety tests
-        run: node tests/nutrition.test.js
+        run: |
+          node tests/nutrition.test.js
+          node tests/integration.test.js
       - name: Check JavaScript syntax
         run: node --check src/nutrition.js
