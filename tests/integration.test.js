@@ -33,4 +33,7 @@ assert.match(html,/id="labelGrams"/);
 assert.match(html,/id="labelConfirm"/);
 assert.match(html,/Etiqueta del envase \(transcrita por usuario\)/);
 assert.match(html,/if\(!\$\('labelConfirm'\)\.checked\)/);
+assert.match(html,/id="restoreFile"/);
+assert.match(html,/NutriBackup\.validate\(/);
+assert.match(html,/Se reemplazarán TODOS los registros locales/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
