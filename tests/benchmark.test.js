@@ -34,4 +34,11 @@ const unusual=evaluate([{id:'special',actual:'__proto__',predicted:null}],{minSa
 assert.equal(unusual.perClass['__proto__'].abstained,1);
 const unusualError=evaluate([{id:'x',actual:'__proto__',predicted:'constructor'}],{minSamples:1});
 assert.equal(unusualError.confusions['__proto__'].constructor,1);
+assert.throws(()=>evaluate([
+ {id:'original',sourceId:'foto-real-1',actual:'Tomate',predicted:'Tomate'},
+ {id:'recorte',sourceId:'foto-real-1',actual:'Tomate',predicted:'Tomate'}
+],{minSamples:1}),/recortes no son muestras independientes/);
+const base=evaluate([{id:'original',sourceId:'foto-real-1',actual:'Tomate',predicted:null}],{minSamples:1});
+const crop=evaluate([{id:'recorte',sourceId:'foto-real-1',actual:'Tomate',predicted:'Tomate'}],{minSamples:1});
+assert.equal(compare(crop,base).decision,'REVIEW_REQUIRED');
 console.log('OK: evaluación de aciertos, errores y abstenciones');
