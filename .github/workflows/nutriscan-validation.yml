@@ -35,6 +35,7 @@ jobs:
           node --check src/photo-quality.js
           node --check src/frame.js
           node --check src/scan-scores.js
+          node --check src/vision-catalog.js
           node --check tests/frame.test.js
           node --check tests/photo-quality.test.js
           node --check tests/vision-gate.test.js
