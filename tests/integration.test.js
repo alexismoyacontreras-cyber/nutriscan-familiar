@@ -72,4 +72,8 @@ assert.match(benchmark,/Duplicadas omitidas:/);
 assert.match(benchmark,/const id='sha256:'\+fingerprint/);
 assert.match(benchmark,/NutriBenchmark\.compare\(current,baseline\)/);
 assert.match(benchmark,/previous\.samples/);
+assert.match(html,/id="focusZoom"/);
+assert.match(html,/id="focusApply"/);
+assert.match(html,/scannerOriginal=prepared/);
+assert.match(html,/\[1,1\.4,2\]\.includes\(zoom\)/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
