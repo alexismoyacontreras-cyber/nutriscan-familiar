@@ -108,13 +108,13 @@ function useScannerImage(source,selectedRun){
 }
 $('focusApply').onclick=()=>{if(!scannerOriginal)return;const zoom=Number($('focusZoom').value);if(![1,1.4,2].includes(zoom))return;const run=++visionRun;const src=scannerOriginal,c=document.createElement('canvas');c.width=src.width;c.height=src.height;const sw=src.width/zoom,sh=src.height/zoom;c.getContext('2d').drawImage(src,(src.width-sw)/2,(src.height-sh)/2,sw,sh,0,0,c.width,c.height);$('preview').src=c.toDataURL('image/jpeg',.88);$('scanResult').innerHTML='';if(run===visionRun)analyze(c)};
 $('capture').onclick=()=>{
- const selectedRun=++visionRun;$('scanResult').innerHTML='';const video=$('cam');
+ const selectedRun=++visionRun;scannerOriginal=null;$('focusTools').classList.add('hide');$('scanResult').innerHTML='';const video=$('cam');
  if(!video.videoWidth||!video.videoHeight){$('notice').textContent='Espera a que la cámara muestre la imagen.';return}
  const frame=document.createElement('canvas');const scale=Math.min(1,1280/Math.max(video.videoWidth,video.videoHeight));frame.width=Math.round(video.videoWidth*scale);frame.height=Math.round(video.videoHeight*scale);frame.getContext('2d').drawImage(video,0,0,frame.width,frame.height);stopCamera();useScannerImage(frame,selectedRun);
 };
 $('photo').onchange=e=>{
  const f=e.target.files?.[0];e.target.value='';if(!f)return;
- const selectedRun=++visionRun;$('scanResult').innerHTML='';stopCamera();
+ const selectedRun=++visionRun;scannerOriginal=null;$('focusTools').classList.add('hide');$('scanResult').innerHTML='';stopCamera();
  if(!f.type.startsWith('image/')||f.size>15*1024*1024){$('notice').textContent='Selecciona una imagen de hasta 15 MB.';return}
  const u=URL.createObjectURL(f),img=new Image();
  img.onload=()=>{URL.revokeObjectURL(u);useScannerImage(img,selectedRun)};
