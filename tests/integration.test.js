@@ -80,4 +80,7 @@ assert.match(benchmark,/id="paired"/);
 assert.match(benchmark,/pairedResults\.push/);
 assert.match(benchmark,/predict\(cropCenter\(img,1\.4\),classify\)/);
 assert.match(benchmark,/pairedResults,duplicatesSkipped/);
+assert.match(benchmark,/cropDecision:'TECHNICAL_ERROR'/);
+assert.match(benchmark,/Comparación de encuadres:/);
+assert.match(benchmark,/empeora:/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
