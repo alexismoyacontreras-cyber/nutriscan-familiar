@@ -10,7 +10,7 @@
   const minSamples=options.minSamples??30;
   if(!Number.isInteger(minSamples)||minSamples<1)throw new Error('minSamples inválido');
   let correct=0,abstained=0,wrong=0;
-  const perClass=Object.create(null);
+  const perClass=Object.create(null),confusions=Object.create(null);
   const ids=new Set();
   for(const sample of samples){
    if(!sample||typeof sample.id!=='string'||!sample.id.trim()||ids.has(sample.id))throw new Error('ID de muestra inválido o duplicado');
@@ -23,7 +23,7 @@
    cls.total++;
    if(predicted===null){abstained++;cls.abstained++}
    else if(predicted===label){correct++;cls.correct++}
-   else{wrong++;cls.wrong++}
+   else{wrong++;cls.wrong++;const errors=confusions[label]??=Object.create(null);errors[predicted]=(errors[predicted]||0)+1}
   }
   const n=samples.length,attempted=correct+wrong;
   const round=x=>Math.round(x*10000)/10000;
@@ -35,7 +35,7 @@
    accuracyWhenPredicted:attempted?round(correct/attempted):null,
    overallCorrectRate:round(correct/n),
    errorRate:round(wrong/n),
-   perClass
+   confusions,perClass
   });
  }
  function compare(candidate,baseline){
