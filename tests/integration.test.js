@@ -44,4 +44,6 @@ assert.match(html,/gate\.suggest/);
 assert.match(html,/No hay identificación consistente/);
 assert.match(html,/NutriPhotoQuality\.inspect\(/);
 assert.match(html,/No se ejecutó el reconocimiento/);
+assert.match(html,/NutriFrame\.frame\(/);
+assert.match(html,/for\(const ratio of \[1,\.72\]\)/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
