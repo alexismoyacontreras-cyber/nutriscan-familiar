@@ -23,6 +23,7 @@ jobs:
           node tests/photo-quality.test.js
           node tests/frame.test.js
           node tests/scan-scores.test.js
+          node tests/vision-catalog.test.js
           node tests/integration.test.js
       - name: Check JavaScript syntax
         run: |
