@@ -1,0 +1,15 @@
+const assert=require('node:assert/strict');
+const {decide}=require('../src/vision-gate.js');
+const labels=['Tomate','Marraqueta','Palta'];
+const strong=decide([[.80,.10,.10],[.76,.12,.12]],labels);
+assert.equal(strong.suggest,true);assert.equal(strong.label,'Tomate');
+assert.equal(strong.scoresAreProbabilities,false);
+const disagree=decide([[.80,.10,.10],[.12,.80,.08]],labels);
+assert.equal(disagree.suggest,false);assert.equal(disagree.label,null);assert.equal(disagree.reason,'DISAGREEMENT');
+const weakCrop=decide([[.95,.03,.02],[.38,.34,.28]],labels);
+assert.equal(weakCrop.suggest,false);assert.equal(weakCrop.reason,'WEAK_CROP');
+const weakMargin=decide([[.48,.43,.09],[.47,.44,.09]],labels);
+assert.equal(weakMargin.suggest,false);
+assert.throws(()=>decide([[NaN,.5,.5],[.7,.2,.1]],labels),/inválidas/);
+assert.throws(()=>decide([[.8,.2],[.8,.2]],labels),/inválidas/);
+console.log('OK: escáner no anuncia reconocimiento si hay desacuerdo o ambigüedad');
