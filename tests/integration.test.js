@@ -18,4 +18,8 @@ assert.match(html,/NutriNutrition\.calculate\(\{grams:g,kcalPer100g:f\[2\]\}\)/)
 assert.match(html,/Puedes abrir la pestaña Comidas/);
 assert.match(html,/Estimación ·/);
 assert.ok(html.includes('escapeHtml(e.source||"Fuente no registrada")'));
+assert.match(html,/src="src\/barcode\.js"/);
+assert.match(html,/NutriBarcode\.lookup\(/);
+assert.match(html,/barcodeConfirm/);
+assert.match(html,/Revisé el producto y sus calorías con el envase/);
 console.log('OK: integraciones y compatibilidad de almacenamiento verificadas por inspección estática');
